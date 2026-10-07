@@ -258,7 +258,7 @@ function calc(){
 }
 
 function shareText(r){
-  return `これって浮気？判定シート 結果\n【${r.type.name}】\n①浮気 ${r.c[0]}／②嫌 ${r.c[1]}／③OK ${r.c[2]}\nやる側なら答え変わる？→${state.yn||"-"}\n出典：健屋花那さん\n#${HASHTAG}${SHARE_URL?"\n"+SHARE_URL:""}`;
+  return `これって浮気？判定シート 結果\n【${r.type.name}】\nやる側なら答え変わる？→${state.yn||"-"}\n出典：健屋花那さん\n#${HASHTAG}${SHARE_URL?"\n"+SHARE_URL:""}`;
 }
 
 async function drawCard(r){
