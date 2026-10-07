@@ -107,7 +107,7 @@ details summary{color:var(--ink);font-weight:900;cursor:pointer}
   </div>
 
   <main class="sheet" id="app"></main>
-  <footer class="credit">出典：健屋花那さん（<a href="https://x.com/sukosuko_sukoya/status/2107121927278166034" target="_blank" rel="noopener">@sukosuko_sukoya のポスト</a>）の「これって浮気？判定シート」をもとに作成しています</footer>
+  <footer class="credit">出典：健屋花那さん（<a href="https://x.com/sukosuko_sukoya/status/2107121927278166034" target="_blank" rel="noopener">@sukosuko_sukoya のポスト</a>）の「これって浮気？判定シート」をもとに作成しています<br>シートデザイン：ありあさん（<a href="https://x.com/air_trpg" target="_blank" rel="noopener">@air_trpg</a>）</footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -258,7 +258,7 @@ function calc(){
 }
 
 function shareText(r){
-  return `これって浮気？判定シート 結果\n【${r.type.name}】\nやる側なら答え変わる？→${state.yn||"-"}\n出典：健屋花那さん\n#${HASHTAG}${SHARE_URL?"\n"+SHARE_URL:""}`;
+  return `これって浮気？判定シート 結果\n【${r.type.name}】\nやる側なら答え変わる？→${state.yn||"-"}\n出典：健屋花那さん／デザイン：ありあさん\n#${HASHTAG}${SHARE_URL?"\n"+SHARE_URL:""}`;
 }
 
 async function drawCard(r){
@@ -306,7 +306,7 @@ async function drawCard(r){
   g.fillStyle=PINK; g.fillRect(150,1110,W-300,4);
   g.font=`900 30px ${body}`; g.fillStyle=TXT;
   g.fillText(`自分がやる側なら答え変わる？ → ${state.yn||"-"}`,W/2,1142);
-  g.font=`700 20px ${body}`; g.fillStyle=PINK; g.fillText("出典：健屋花那さん（@sukosuko_sukoya）「これって浮気？判定シート」",W/2,1182);
+  g.font=`700 20px ${body}`; g.fillStyle=PINK; g.fillText("出典：健屋花那さん（@sukosuko_sukoya）／デザイン：ありあさん（@air_trpg）",W/2,1182);
   return cv.toDataURL("image/png");
 }
 function rr(g,x,y,w,h,r){ g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
