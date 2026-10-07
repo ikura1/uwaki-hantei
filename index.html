@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>これって浮気？判定シート</title>
+<meta name="description" content="恋人がこれをしたら浮気？全40問を3択で答えて、あなたの判定タイプをチェック。結果は画像つきでXにポストできます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ikura1.github.io/uwaki-hantei/">
+<meta property="og:title" content="これって浮気？判定シート">
+<meta property="og:description" content="全40問を3択で答えて、あなたの浮気ラインを判定。結果は画像つきでポストできます。">
+<meta property="og:image" content="https://ikura1.github.io/uwaki-hantei/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#ff33c4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff33c4'/%3E%3Cpath d='M18 18l28 28M46 18L18 46' stroke='white' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>html,body{margin:0}*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&family=Archivo:wght@800;900&display=swap">
+<style>
+/* Layout: the paper sheet as a phone-sized card, one question at a time, pink-on-grey like the original */
+:root{
+  --paper:#e4e5e8;
+  --ink:#ff33c4;
+  --ink-deep:#d61fa3;
+  --ink-soft:#ffc2ec;
+  --white:#ffffff;
+  --text:#4a2140;
+  --f-display:"Dela Gothic One","Hiragino Sans","Noto Sans JP",sans-serif;
+  --f-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif;
+  --f-num:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-weight:700;padding:0 16px;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+.topbar{display:flex;align-items:center;gap:10px}
+.xs{font-family:var(--f-num);font-weight:900;font-size:22px;letter-spacing:2px;line-height:1;flex:0 0 auto;user-select:none}
+.pill{flex:1;min-width:0;background:var(--ink);color:var(--white);border-radius:999px;height:30px;display:flex;align-items:center;justify-content:center;font-family:var(--f-num);font-weight:800;font-size:14px;letter-spacing:.15em;position:relative;overflow:hidden;font-variant-numeric:tabular-nums}
+.pill .fill{position:absolute;inset:0 auto 0 0;background:var(--ink-deep);transition:width .25s}
+.pill span{position:relative}
+.sheet{border-left:8px solid var(--ink);border-right:8px solid var(--ink);border-radius:6px;padding:8px 18px;display:flex;flex-direction:column;gap:16px}
+.legend{background:var(--ink);color:var(--white);display:flex;justify-content:space-around;flex-wrap:wrap;gap:4px 14px;padding:8px 10px;font-size:13px;letter-spacing:.12em}
+.lead{text-align:center;font-size:13px;letter-spacing:.4em;margin:6px 0 -6px}
+h1{font-family:var(--f-display);font-weight:400;text-align:center;line-height:1.15;margin:0;font-size:clamp(30px,9vw,52px);text-wrap:balance}
+h1 small{font-size:.62em}
+.intro p{color:var(--text);font-weight:500;line-height:1.8;margin:0;font-size:15px}
+.btn{appearance:none;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font:inherit;font-weight:900;font-size:17px;border-radius:999px;padding:14px 18px;cursor:pointer;transition:transform .08s,background .15s,color .15s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--ink);color:var(--white)}
+.btn:focus-visible,.choice:focus-visible,.link:focus-visible{outline:3px solid var(--ink-deep);outline-offset:3px}
+.qnum{font-family:var(--f-num);font-weight:900;font-size:64px;line-height:1;letter-spacing:-.02em}
+.qnum span{font-size:.5em}
+.qtext{font-size:clamp(20px,5.6vw,26px);line-height:1.6;letter-spacing:.06em;min-height:3.3em;margin:0;text-wrap:pretty}
+.rule{height:4px;background:var(--ink);border:0;margin:0}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice{appearance:none;font:inherit;font-weight:900;font-size:18px;letter-spacing:.08em;text-align:left;display:flex;align-items:center;gap:14px;padding:12px 14px;border:3px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:4px;transition:background .12s,color .12s}
+.choice .box{width:30px;height:30px;border:4px solid currentColor;flex:0 0 auto;display:grid;place-items:center;font-family:var(--f-num);font-size:20px;line-height:1}
+.choice.on{background:var(--ink);color:var(--white)}
+.choice.on .box::after{content:"✓"}
+@media (hover:hover){.choice:hover{background:var(--ink-soft)}.choice.on:hover{background:var(--ink)}}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.link{appearance:none;background:none;border:0;color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer;padding:6px 2px;text-decoration:underline;text-underline-offset:4px}
+.link:disabled{opacity:.3;cursor:default}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.yn .btn{font-family:var(--f-display);font-weight:400;font-size:26px;border-radius:6px}
+.res-type{font-family:var(--f-display);font-weight:400;text-align:center;font-size:clamp(30px,9vw,46px);line-height:1.2;margin:0}
+.res-desc{color:var(--text);font-weight:500;text-align:center;line-height:1.8;margin:0}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.count{border:3px solid var(--ink);padding:8px 4px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.count b{font-family:var(--f-num);font-weight:900;font-size:36px;line-height:1.1;font-variant-numeric:tabular-nums}
+.count small{font-size:12px;letter-spacing:.05em}
+.count.c1{background:var(--ink);color:var(--white)}
+.card-img{width:100%;max-width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 2px 0 var(--ink)}
+.note{font-size:12px;color:var(--text);font-weight:500;text-align:center;margin:-6px 0 0}
+.actions{display:flex;flex-direction:column;gap:10px}
+.share-text{width:100%;min-height:120px;border:2px solid var(--ink);background:var(--white);color:var(--text);font:500 14px/1.6 var(--f-body);padding:10px;border-radius:4px;resize:vertical}
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.sn{flex:0 0 36px;height:36px;border-radius:50%;background:var(--ink);color:var(--white);display:grid;place-items:center;font-family:var(--f-num);font-weight:900;font-size:18px}
+.sb{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.sb .note{margin:0;text-align:left}
+.credit{font-size:12px;font-weight:500;color:var(--text);text-align:center;line-height:1.7}
+.credit a{color:var(--ink);font-weight:700;text-underline-offset:3px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--white);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+details{color:var(--text);font-weight:500}
+details summary{color:var(--ink);font-weight:900;cursor:pointer}
+.alist{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column}
+.alist li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:2px solid var(--ink-soft);font-size:14px;line-height:1.5}
+.alist .n{font-family:var(--f-num);font-weight:900;color:var(--ink);flex:0 0 2.2em}
+.alist .t{flex:1;min-width:0}
+.alist .a{flex:0 0 auto;font-weight:900;color:var(--ink);font-size:12px;border:2px solid var(--ink);padding:0 6px;border-radius:3px}
+.alist .a.k1{background:var(--ink);color:var(--white)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes pop{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
+.qwrap{display:flex;flex-direction:column;gap:14px;animation:pop .18s ease-out}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar" aria-hidden="false">
+    <div class="xs" aria-hidden="true">✕✕</div>
+    <div class="pill" role="progressbar" aria-valuemin="0" aria-valuemax="40" id="prog"><div class="fill" id="progFill" style="width:0%"></div><span id="progText">START</span></div>
+    <div class="xs" aria-hidden="true">✕✕</div>
+  </div>
+
+  <main class="sheet" id="app"></main>
+  <footer class="credit">出典：健屋花那さん（<a href="https://x.com/sukosuko_sukoya/status/2107121927278166034" target="_blank" rel="noopener">@sukosuko_sukoya のポスト</a>）の「これって浮気？判定シート」をもとに作成しています</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===== ここを書き換えればカスタマイズできます ===== */
+const HASHTAG = "これって浮気判定シート";
+const SHARE_URL = "https://ikura1.github.io/uwaki-hantei/";
+const LABELS = ["浮気", "浮気じゃないけど嫌", "全然OK"];
+// 判定：①=2点 ②=1点 ③=0点（最大80点）
+const TYPES = [
+  {max:15, name:"おおらか信頼派", desc:"ほとんど全部OK。相手を信じて、自由にさせてあげられるタイプ。"},
+  {max:35, name:"バランス常識派", desc:"友達付き合いには寛大、でも越えちゃダメな線はちゃんとある。"},
+  {max:55, name:"ちょっぴり心配派", desc:"「浮気じゃないけど嫌」が多め。モヤっとを抱えがちなタイプ。"},
+  {max:80, name:"鉄壁ガード派", desc:"線引きはきっちり。恋人には自分だけを見ていてほしいタイプ。"}
+];
+const QUESTIONS = [
+"異性と二人でランチに行く",
+"学生時代からの異性の親友と二人でご飯",
+"仕事終わりに異性の同僚と二人で飲む",
+"恋人も知っている異性の友達と二人で遊ぶ",
+"異性の友達と二人で映画を観に行く",
+"異性の友達の誕生日にプレゼントを渡す",
+"異性の友達から誕生日プレゼントをもらう",
+"異性の友達と毎日LINEする",
+"昔から仲の良い異性と深夜に電話する",
+"異性に恋愛相談する",
+"異性から「かわいい／かっこいい」と言われて普通に喜ぶ",
+"異性に「今日かわいいね」と言う",
+"異性の髪型や服装の変化に気づいて褒める",
+"異性の友達とお揃いの物を持っている",
+"異性の友達とのツーショットをSNSに載せる",
+"異性とのツーショットをスマホに残している",
+"異性の友達にだけ通じるあだ名で呼び合う",
+"異性の友達と二人だけの思い出話で盛り上がる",
+"異性から「一番仲良い異性の友達」と言われる",
+"異性に「○○と付き合ったら楽しそう」と冗談ぽく言われて笑って流す",
+"異性の友達が落ち込んでいるので二人で会って話を聞く",
+"終電を逃した異性を車で家まで送る",
+"異性の友達が酔っているので介抱する",
+"異性の友達が泣いていたので慰める",
+"寒そうな異性に上着を貸す",
+"異性の友達の引っ越しを二人で手伝う",
+"異性の友達から「今から会えない？」と言われて会いに行く",
+"異性の友達と二人で買い物に行って服を選んでもらう",
+"異性の友達と二人でカラオケ",
+"異性の友達と二人でテーマパーク",
+"元恋人のSNSをフォローしたまま",
+"元恋人の投稿にいいねする",
+"元恋人から「あけおめ」が来たので返す",
+"元恋人から誕生日おめでとうLINEが来て「ありがとう！」と返す",
+"元恋人にもらった財布を普通に使い続ける",
+"元恋人との写真を消していない",
+"元恋人との思い出の場所に今の恋人と行く",
+"共通の友達の結婚式で元恋人と普通に話す",
+"元恋人に新しい恋人ができたと聞いて「よかった」と思う",
+"元恋人から「久しぶり、元気？」と来て、数往復だけ近況報告"
+];
+const FINAL_Q = "自分がやる側なら答え変わりますか？";
+/* ================================================ */
+
+const N = QUESTIONS.length;
+const KEY = "uwaki-sheet-v1";
+let state = {i:-1, a:Array(N).fill(0), yn:null};
+try{ const s = JSON.parse(localStorage.getItem(KEY)||"null"); if(s && Array.isArray(s.a) && s.a.length===N) state = s; }catch(e){}
+const save = ()=>{ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} };
+
+const app = document.getElementById("app");
+const pad = n => String(n).padStart(2,"0");
+const esc = s => s.replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const legend = `<div class="legend"><span>① 浮気</span><span>② 浮気じゃないけど嫌</span><span>③ 全然OK</span></div>`;
+
+function setProg(){
+  const done = state.a.filter(Boolean).length;
+  const fill = document.getElementById("progFill"), t = document.getElementById("progText"), p = document.getElementById("prog");
+  p.setAttribute("aria-valuenow", done);
+  if(state.i < 0){ fill.style.width="0%"; t.textContent="START"; }
+  else if(state.i >= N+1){ fill.style.width="100%"; t.textContent="RESULT"; }
+  else { fill.style.width = (Math.min(state.i,N)/N*100)+"%"; t.textContent = state.i<N ? `${pad(state.i+1)} / ${N}` : "LAST"; }
+}
+
+function render(){
+  setProg();
+  if(state.i < 0) return renderIntro();
+  if(state.i < N) return renderQ();
+  if(state.i === N) return renderFinal();
+  return renderResult();
+}
+
+function renderIntro(){
+  const started = state.a.some(Boolean);
+  app.innerHTML = `
+    <div class="intro" style="display:flex;flex-direction:column;gap:16px">
+      <p class="lead" style="color:var(--ink);font-weight:900">健屋と一緒に埋めてみよう！</p>
+      <h1><small>これって</small><br>浮気？判定シート</h1>
+      ${legend}
+      <p>恋人がこれをしたら…？ 全${N}問を「① 浮気」「② 浮気じゃないけど嫌」「③ 全然OK」の3択でタップしていくだけ。最後にあなたの判定タイプと結果画像が出て、そのままXにポストできます。</p>
+      <button class="btn solid" id="start">${started ? "続きから回答する" : "判定スタート"}</button>
+      ${started ? `<button class="link" id="reset" style="align-self:center">最初からやり直す</button>` : ""}
+    </div>`;
+  document.getElementById("start").onclick = ()=>{ state.i = started ? Math.max(0, state.a.findIndex(x=>!x)===-1 ? N : state.a.findIndex(x=>!x)) : 0; save(); render(); };
+  const r = document.getElementById("reset"); if(r) r.onclick = reset;
+}
+
+function renderQ(){
+  const i = state.i, cur = state.a[i];
+  app.innerHTML = `
+    <div class="qwrap">
+      <div class="qnum">${pad(i+1)}<span>.</span></div>
+      <p class="qtext">${esc(QUESTIONS[i])}</p>
+      <hr class="rule">
+      <div class="choices">
+        ${LABELS.map((l,k)=>`<button class="choice ${cur===k+1?"on":""}" data-k="${k+1}" id="c${k+1}"><span class="box">${cur===k+1?"":""}</span><span>${["①","②","③"][k]} ${l}</span></button>`).join("")}
+      </div>
+      <div class="nav">
+        <button class="link" id="back">← もどる</button>
+        <button class="link" id="next" ${cur?"":"disabled"}>すすむ →</button>
+      </div>
+    </div>`;
+  app.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{
+    state.a[i] = +b.dataset.k; b.parentNode.querySelectorAll(".choice").forEach(x=>x.classList.toggle("on", x===b));
+    save(); setTimeout(()=>{ state.i = i+1; save(); render(); }, 170);
+  });
+  document.getElementById("back").onclick = ()=>{ state.i = i-1; save(); render(); };
+  document.getElementById("next").onclick = ()=>{ if(cur){ state.i=i+1; save(); render(); } };
+}
+
+function renderFinal(){
+  app.innerHTML = `
+    <div class="qwrap">
+      <div class="qnum" style="font-size:40px">LAST<span>.</span></div>
+      <p class="qtext">${FINAL_Q}</p>
+      <hr class="rule">
+      <div class="yn">
+        <button class="btn ${state.yn==="はい"?"solid":""}" data-v="はい" id="y">はい</button>
+        <button class="btn ${state.yn==="いいえ"?"solid":""}" data-v="いいえ" id="n">いいえ</button>
+      </div>
+      <div class="nav"><button class="link" id="back">← もどる</button><span></span></div>
+    </div>`;
+  app.querySelectorAll(".yn .btn").forEach(b=>b.onclick=()=>{ state.yn=b.dataset.v; state.i=N+1; save(); render(); window.scrollTo({top:0}); });
+  document.getElementById("back").onclick = ()=>{ state.i=N-1; save(); render(); };
+}
+
+function calc(){
+  const c=[0,0,0]; state.a.forEach(v=>{ if(v) c[v-1]++; });
+  const score = c[0]*2 + c[1];
+  const type = TYPES.find(t=>score<=t.max) || TYPES[TYPES.length-1];
+  return {c, score, type};
+}
+
+function shareText(r){
+  const em = ["🟥","🟨","🟩"];
+  const rows = [];
+  for(let k=0;k<N;k+=10) rows.push(state.a.slice(k,k+10).map(v=>em[v-1]||"⬜").join(""));
+  return `これって浮気？判定シート 結果\n【${r.type.name}】\n①浮気 ${r.c[0]}／②嫌 ${r.c[1]}／③OK ${r.c[2]}\nやる側なら答え変わる？→${state.yn||"-"}\n${rows.join("\n")}\n出典：健屋花那さん\n#${HASHTAG}${SHARE_URL?"\n"+SHARE_URL:""}`;
+}
+
+async function drawCard(r){
+  const W=1200,H=1200, cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  const g=cv.getContext("2d");
+  try{ await Promise.all([document.fonts.load('400 80px "Dela Gothic One"'),document.fonts.load('900 40px "Zen Maru Gothic"'),document.fonts.load('900 40px "Archivo"')]); }catch(e){}
+  const PINK="#ff33c4", DEEP="#d61fa3", SOFT="#ffc2ec", PAPER="#e4e5e8", TXT="#4a2140";
+  const disp='"Dela Gothic One","Hiragino Sans",sans-serif', body='"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif', num='"Archivo","Helvetica Neue",Arial,sans-serif';
+  g.fillStyle=PAPER; g.fillRect(0,0,W,H);
+  // top bar
+  g.fillStyle=PINK; g.font=`900 52px ${num}`; g.textBaseline="middle"; g.textAlign="left";
+  g.fillText("✕✕✕",44,72); g.textAlign="right"; g.fillText("✕✕✕",W-44,72);
+  rr(g,300,46,600,52,26); g.fill();
+  g.fillStyle="#fff"; g.textAlign="center"; g.font=`800 26px ${num}`; g.fillText("R E S U L T",W/2,73);
+  // side rails
+  g.fillStyle=PINK; rr(g,40,140,18,1000,9); g.fill(); rr(g,W-58,140,18,1000,9); g.fill();
+  // title
+  g.font=`900 30px ${body}`; g.fillText("これって浮気？判定シート",W/2,175);
+  // type
+  g.font=`400 40px ${body.replace('"Zen','"Zen')}`; g.font=`900 34px ${body}`; g.fillStyle=TXT; g.fillText("あなたの判定は…",W/2,250);
+  g.fillStyle=PINK; let fs=118; g.font=`400 ${fs}px ${disp}`;
+  while(g.measureText(r.type.name).width>W-200){ fs-=4; g.font=`400 ${fs}px ${disp}`; }
+  g.fillText(r.type.name,W/2,355);
+  g.fillStyle=TXT; g.font=`700 30px ${body}`; wrapText(g,r.type.desc,W/2,450,W-260,46);
+  // counts
+  const cw=300, cx0=(W-cw*3-30*2)/2, cy=530;
+  ["① 浮気","② 嫌","③ 全然OK"].forEach((l,k)=>{
+    const x=cx0+k*(cw+30);
+    g.lineWidth=6; g.strokeStyle=PINK; g.fillStyle = k===0?PINK:PAPER;
+    g.fillRect(x,cy,cw,170); g.strokeRect(x,cy,cw,170);
+    g.fillStyle = k===0?"#fff":PINK; g.font=`900 96px ${num}`; g.fillText(r.c[k],x+cw/2,cy+72);
+    g.font=`900 28px ${body}`; g.fillText(l,x+cw/2,cy+140);
+  });
+  // grid 10x4
+  const sz=70, gap=14, gx=(W-(sz*10+gap*9))/2, gy=760;
+  for(let k=0;k<N;k++){
+    const x=gx+(k%10)*(sz+gap), y=gy+Math.floor(k/10)*(sz+gap), v=state.a[k];
+    g.lineWidth=6; g.strokeStyle=PINK;
+    if(v===1){ g.fillStyle=PINK; g.fillRect(x,y,sz,sz); }
+    else if(v===2){ g.fillStyle=SOFT; g.fillRect(x,y,sz,sz); g.strokeRect(x+3,y+3,sz-6,sz-6); }
+    else { g.strokeRect(x+3,y+3,sz-6,sz-6); }
+    g.fillStyle = v===1?"#fff":DEEP; g.font=`900 24px ${num}`; g.fillText(pad(k+1),x+sz/2,y+sz/2+1);
+  }
+  // footer
+  g.fillStyle=PINK; g.fillRect(150,1110,W-300,4);
+  g.font=`900 30px ${body}`; g.fillStyle=TXT;
+  g.fillText(`自分がやる側なら答え変わる？ → ${state.yn||"-"}`,W/2,1142);
+  g.font=`700 20px ${body}`; g.fillStyle=PINK; g.fillText("出典：健屋花那さん（@sukosuko_sukoya）「これって浮気？判定シート」",W/2,1182);
+  return cv.toDataURL("image/png");
+}
+function rr(g,x,y,w,h,r){ g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
+function wrapText(g,t,x,y,max,lh){ let line="", lines=[]; for(const ch of t){ if(g.measureText(line+ch).width>max){ lines.push(line); line=ch; } else line+=ch; } lines.push(line); lines.forEach((l,k)=>g.fillText(l,x,y+k*lh)); }
+
+async function renderResult(){
+  const r = calc(), txt = shareText(r);
+  const intent = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(txt);
+  app.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <p class="lead" style="letter-spacing:.2em">あなたの判定は…</p>
+      <h2 class="res-type">${esc(r.type.name)}</h2>
+      <p class="res-desc">${esc(r.type.desc)}</p>
+      <div class="counts">
+        <div class="count c1"><b>${r.c[0]}</b><small>① 浮気</small></div>
+        <div class="count"><b>${r.c[1]}</b><small>② 嫌</small></div>
+        <div class="count"><b>${r.c[2]}</b><small>③ 全然OK</small></div>
+      </div>
+      <img class="card-img" id="cardImg" alt="判定結果の画像" width="1200" height="1200">
+      <div class="steps" id="stepsShare" hidden>
+        <button class="btn solid" id="shareFile">画像つきでシェアする</button>
+        <p class="note" style="margin:0">共有メニューから「X」を選ぶと、結果画像とポスト文が入った投稿画面が開きます</p>
+      </div>
+      <div class="steps" id="stepsManual">
+        <div class="step"><span class="sn">1</span><div class="sb">
+          <a class="btn solid" id="saveImg" download>結果画像を保存する</a>
+          <button class="btn" id="copyImg" hidden>画像をコピー（Xで貼り付けて添付）</button>
+          <p class="note">うまく保存できないときは、画像を長押し（PCは右クリック）で保存してください</p>
+        </div></div>
+        <div class="step"><span class="sn">2</span><div class="sb">
+          <a class="btn solid" href="${intent}" target="_blank" rel="noopener">𝕏 でポストする</a>
+          <p class="note">投稿画面が開いたら、保存した画像を添付してください</p>
+        </div></div>
+      </div>
+      <div class="steps" style="align-items:center;gap:4px">
+        <a class="link" href="${intent}" target="_blank" rel="noopener" id="textOnly" hidden>画像なしでXにポスト</a>
+        <button class="link" id="copy">ポスト文だけコピー</button>
+      </div>
+      <textarea class="share-text" id="shareText" aria-label="ポスト文">${esc(txt)}</textarea>
+      <details><summary>自分の回答を見る</summary>
+        <ul class="alist">${QUESTIONS.map((q,k)=>`<li><span class="n">${pad(k+1)}.</span><span class="t">${esc(q)}</span><span class="a k${state.a[k]}">${["①","②","③"][state.a[k]-1]||"-"}</span></li>`).join("")}</ul>
+      </details>
+      <div class="nav"><button class="link" id="edit">← 回答を直す</button><button class="link" id="again">もう一回やる</button></div>
+    </div>`;
+  document.getElementById("copy").onclick = async ()=>{
+    const ta=document.getElementById("shareText");
+    try{ await navigator.clipboard.writeText(ta.value); toast("コピーしました"); }
+    catch(e){ ta.focus(); ta.select(); toast("選択したのでコピーしてください"); }
+  };
+  document.getElementById("edit").onclick = ()=>{ state.i=0; save(); render(); };
+  document.getElementById("again").onclick = reset;
+  const dataUrl = await drawCard(r);
+  document.getElementById("cardImg").src = dataUrl;
+  const bin = atob(dataUrl.split(",")[1]), u8 = new Uint8Array(bin.length); for(let k=0;k<bin.length;k++) u8[k]=bin.charCodeAt(k);
+  const blob = new Blob([u8], {type:"image/png"});
+  const fname = `uwaki-hantei-${r.c.join("-")}.png`;
+  const sv = document.getElementById("saveImg"); sv.href = dataUrl; sv.download = fname;
+  const file = new File([blob], fname, {type:"image/png"});
+  if(navigator.canShare && navigator.canShare({files:[file]}) && matchMedia("(pointer:coarse)").matches){
+    document.getElementById("stepsShare").hidden = false;
+    document.getElementById("stepsManual").hidden = true;
+    document.getElementById("textOnly").hidden = false;
+    document.getElementById("shareFile").onclick = async ()=>{
+      try{ await navigator.share({files:[file], text:txt}); }
+      catch(e){ if(e && e.name==="AbortError") return; document.getElementById("stepsManual").hidden=false; toast("共有できなかったので、保存してからポストしてください"); }
+    };
+  }
+  const cb = document.getElementById("copyImg");
+  if(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write && matchMedia("(hover:hover)").matches){
+    cb.hidden = false;
+    cb.onclick = async ()=>{
+      try{ await navigator.clipboard.write([new ClipboardItem({"image/png": blob})]); toast("画像をコピーしました。Xの投稿画面で貼り付けてください"); }
+      catch(e){ cb.hidden = true; toast("この環境では画像をコピーできません。保存してください"); }
+    };
+  }
+}
+
+function reset(){ state={i:-1,a:Array(N).fill(0),yn:null}; save(); render(); }
+let tt; function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("show"),1800); }
+
+render();
+</script>
+</body>
+</html>
